@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'groovy'
 	id 'org.springframework.boot' version '3.0.2'
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'org.graalvm.buildtools.native' version '0.9.18'
@@ -18,13 +19,23 @@ configurations {
 repositories {
 	mavenCentral()
 }
+// what is the dependency for spockframework
+
 
 dependencies {
+	implementation platform('org.apache.groovy:groovy-bom:4.0.5')
+	implementation 'org.apache.groovy:groovy'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	testImplementation platform("org.spockframework:spock-bom:2.3-groovy-4.0")
+	testImplementation "org.spockframework:spock-core"
+	testImplementation "org.spockframework:spock-spring"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+	testRuntimeOnly 'net.bytebuddy:byte-buddy:1.12.17' // allows mocking of classes (in addition to interfaces)
+	testRuntimeOnly "org.objenesis:objenesis:3.3"      // allows mocking of classes without default constructor (together with ByteBuddy or CGLIB)
+
 }
 
 tasks.named('test') {

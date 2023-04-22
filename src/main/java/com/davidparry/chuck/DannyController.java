@@ -8,9 +8,11 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/")
-public class DavidController {
+public class DannyController {
 
     WebClient client = WebClient.create("https://api.chucknorris.io/jokes/random?category=dev");
+
+
 
     @GetMapping("/quote")
     public Mono<Quote> getQuote() {
