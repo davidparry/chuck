@@ -1,4 +1,4 @@
-package com.davidparry.chuck;
+package com.davidparry.chuck.common;
 
 
 import org.slf4j.Logger;
@@ -29,10 +29,9 @@ public class Config {
     private Mono<ClientResponse> renderApiErrorResponse(ClientResponse clientResponse) {
         if (clientResponse.statusCode().isError()) {
             return clientResponse.bodyToMono(ApiErrorResponse.class).doOnNext(apiErrorResponse -> {
-                logger.error("Sending out ApiErrorResponse: {} ", apiErrorResponse);
+                logger.error("Chuck Service ApiErrorResponse: {} ", apiErrorResponse);
             }).flatMap(apiErrorResponse -> Mono.error(
-                    new ResponseStatusException(HttpStatusCode.valueOf(HttpStatus.SERVICE_UNAVAILABLE.value()),
-                            SERVER_DOWN_MESSAGE)));
+                    new ResponseStatusException(HttpStatusCode.valueOf(HttpStatus.SERVICE_UNAVAILABLE.value()))));
         }
         return Mono.just(clientResponse);
     }
